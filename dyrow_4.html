@@ -7,29 +7,21 @@
 <script type="text/javascript" src="res/common/dyRow.js" ></script>
 <script>
 $(function(){
+    /**
+     * 通过插件内部方法更新每行的序号
+     */
     $("#tradeRecordsIndex").dyRow({
         onRowRemove: function(){
-            updateBeerCount();
+            $("#tradeRecordsIndex")._updateSortNum();
         },
         onRowClone: function(){
-            updateBeerCount();
+            $("#tradeRecordsIndex")._updateSortNum();
         },
         onRowAdd: function(){
-            updateBeerCount();
+            $("#tradeRecordsIndex")._updateSortNum();
         }
     });
 })
-/**
- * 更新每行的序号 
- */
-function updateBeerCount() {
-    var count = 0;
-    $('#tradeRecordsIndex .rownum').each(function(){ 
-        count++;
-        $(this).html(count);
-    });
-    return count;
-}
 </script>
 </head>
 <body>

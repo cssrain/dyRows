@@ -63,6 +63,60 @@
                     });
                 }
             })
+        },
+        _updateSortNum: function() {
+            var rownum = 1;
+            $.each($("td.rownum", this), function(i, n) {
+                $(n).html(rownum++);
+            });
+        },
+        getTableObj: function() { //获取所有对象
+            var arr = new Array();
+            $("tbody tr", this).each(function() {
+                var obj = $(this)._getRowObj();
+                arr.push(obj);
+            });
+            return arr;
+        },
+        _getRowObj: function() { //获取每个对象
+            var obj = {};
+            $("[property]", this).each(function() {
+                var property = $(this).attr("property");
+                var v = $(this)._getValue();
+                obj[property] = v;
+            });
+            return obj;
+        },
+        _getValue: function() {
+            var v = "";
+            var property = $(this).attr("property");
+            if(property != "") {
+                if($(this).is("input:checkbox")){
+                    var cv = new Array();
+                    $(":checked", $(this).parent()).each(function() {
+                        cv.push($(this).val());
+                    });
+                    v = cv.join(",");
+                }else if($(this).is("input:radio")){
+                    //实际使用中，尽量避免radio，可以使用select来代替
+                    var grounp = $(this).attr("name");
+                    v = $("input[name='"+grounp+"']:checked", $(this).parent()).val();
+                    if (v == undefined) {
+                        v = "";
+                    }
+                }else if(this[0].tagName.toLowerCase() == "input" || this[0].tagName.toLowerCase() == "textarea"){
+                    v = $(this).val();
+                }else if(this[0].tagName.toLowerCase() == "select") {
+                    v = $("option:selected", this).val();
+                    if (v == "") {
+                        v = $("option:selected", this).text();
+                    }
+                }else if (this[0].tagName.toLowerCase() == "label" || this[0].tagName.toLowerCase() == "td"){
+                    v = $(this).text();
+                }
+            }
+            return v;
         }
+
     })
 })(jQuery);

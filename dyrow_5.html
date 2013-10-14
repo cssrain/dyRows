@@ -7,40 +7,38 @@
 <script type="text/javascript" src="res/common/dyRow.js" ></script>
 <script>
 $(function(){
+    /**
+     * 通过插件内部方法更新每行的序号
+     */
     $("#tradeRecordsIndex").dyRow({
         onRowRemove: function(){
-            updateBeerCount();
+            $("#tradeRecordsIndex")._updateSortNum();
         },
         onRowClone: function(){
-            updateBeerCount();
+            $("#tradeRecordsIndex")._updateSortNum();
         },
         onRowAdd: function(){
-            updateBeerCount();
+            $("#tradeRecordsIndex")._updateSortNum();
         }
     });
-})
-/**
- * 更新每行的序号 
- */
-function updateBeerCount() {
-    var count = 0;
-    $('#tradeRecordsIndex .rownum').each(function(){ 
-        count++;
-        $(this).html(count);
+
+    $("#json-row").click(function(){
+        console.log( $("#tradeRecordsIndex").getTableObj() );
     });
-    return count;
-}
+
+})
 </script>
 </head>
 <body>
-<h2>动态添加后，更新每行的序号：</h2>
+<h2>把表格数据输出为json：</h2>
 <div>
-	<table id="tradeRecordsIndex" class="ui-record-table" width="50%">
+	<table id="tradeRecordsIndex" class="ui-record-table" width="60%">
 		<colgroup>
             <col width="60">
 			<col width="">
 			<col width="">
 			<col width="">
+            <col width="">
 			<col width="20">
 			<col width="20">
 		</colgroup>
@@ -50,6 +48,7 @@ function updateBeerCount() {
 				<th >IMEI串号</th>
 				<th >品牌</th>
 				<th >颜色</th>
+                <th >销售对象</th>
                 <th colspan="2">操作</th>
             </tr>
 		</thead>
@@ -59,26 +58,31 @@ function updateBeerCount() {
 	</table>
 </div>
 <a id="add-row" href="#">添加一行</a>
+<a id="json-row" href="#">table json</a>
+
+
 
 <textarea id="add-template" style="display:none;">
 <tr >
-    <td class="rownum"></td>
+    <td class="rownum" property='sortnum'></td>
     <td>
-        <input type="text" value="请输入imei号"/>
+        <input type="text" value="请输入imei号" property='imei'/>
     </td>
     <td>
-        <select>
+        <select property='brand'>
             <option>请选择品牌</option>
-            <option>三星</option>
-            <option>苹果</option>
+            <option value="1">三星</option>
+            <option value="2">苹果</option>
         </select>
     </td>
     <td>
-        <select>
-            <option>请选择颜色</option>
-            <option>白</option>
-            <option>黑</option>
-        </select>
+        <input type="radio" name="color{0}" property='color' value="white"/>白
+        <input type="radio" name="color{0}" property='color' value="black"/>黑
+    </td>
+    <td>
+        <input type="checkbox" name="sale" property='sale' value="1"/>学生
+        <input type="checkbox" name="sale" property='sale' value="2"/>白领
+        <input type="checkbox" name="sale" property='sale' value="3"/>农民工
     </td>
     <td>
         <img class="row-cloner" src="img/clone.png" alt="Clone Row" />                        
