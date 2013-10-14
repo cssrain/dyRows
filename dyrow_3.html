@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>Test</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="res/lib/jquery/1.8.3/jquery.js" ></script>
+<script type="text/javascript" src="res/common/dyRow.js" ></script>
+<script>
+$(function(){
+    $("#tradeRecordsIndex").dyRow({
+        onRowRemove: function(){
+            updateBeerCount();
+        },
+        onRowClone: function(){
+            updateBeerCount();
+        },
+        onRowAdd: function(){
+            updateBeerCount();
+        }
+    });
+})
+/**
+ * 更新每行的序号 
+ */
+function updateBeerCount() {
+    var count = 0;
+    $('#tradeRecordsIndex .beer').each(function(){ 
+        count++;
+        $(this).html(count);
+    });
+    return count;
+}
+</script>
+</head>
+<body>
+<h2>动态添加后，更新每行的序号：</h2>
+<div>
+	<table id="tradeRecordsIndex" class="ui-record-table" width="50%">
+		<colgroup>
+            <col width="60">
+			<col width="">
+			<col width="">
+			<col width="">
+			<col width="20">
+			<col width="20">
+		</colgroup>
+		<thead>
+			<tr>
+                <th >序号</th>
+				<th >IMEI串号</th>
+				<th >品牌</th>
+				<th >颜色</th>
+                <th colspan="2">操作</th>
+            </tr>
+		</thead>
+		<tbody >
+
+		</tbody>
+	</table>
+</div>
+<a id="add-row" href="#">添加一行</a>
+
+<textarea id="add-template" style="display:none;">
+<tr >
+    <td class="beer"></td>
+    <td>
+        <input type="text" value="请输入imei号"/>
+    </td>
+    <td>
+        <select>
+            <option>请选择品牌</option>
+            <option>三星</option>
+            <option>苹果</option>
+        </select>
+    </td>
+    <td>
+        <select>
+            <option>请选择颜色</option>
+            <option>白</option>
+            <option>黑</option>
+        </select>
+    </td>
+    <td>
+        <img class="row-cloner" src="img/clone.png" alt="Clone Row" />                        
+    </td>
+    <td>
+        <img class="row-remover" src="img/remove.png" alt="Remove Row" />
+    </td>
+</tr>
+</textarea>
+
+</body>
+</html>
